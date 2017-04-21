@@ -1,4 +1,4 @@
-# Products-limit-for-WooCommerce
+# Products limit for WooCommerce
 Poducts limit is a plugin extension of WooCommerce that add minimum and maximum quantity limit to cart and checkout page of your ecommerce.
 
 # Details
