@@ -9,3 +9,4 @@ In case this limit is reached, the extension provides a warning banner in the ca
 # Features:
 * Set a max. or min. quantity limits of products before checkout.
 * Add custom button "Continue Shopping" in the warning banner in cart and checkout page.
+* Dashboard widget with plugin status and settings link
