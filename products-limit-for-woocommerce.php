@@ -4,7 +4,7 @@ Plugin Name: Products limit for Woocommerce
 Plugin URI: http://iacopocutino.it/products-limit-for-woocommerce/
 Description: Allow to set minimum and maximum quantity of products in Woocommerce and display a warning banner in the cart or checkout page.
 Author: Iacopo Cutino
-Version: 2.0
+Version: 3.0
 Domain Path: /languages
 Author URI: www.iacopocutino.it
 License: GPL2
@@ -57,7 +57,6 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 include 'settings.php';
 
 
-if (get_option('min_auto_insert') == 'yes')   {
 
 // Function for min product in  check out or cart
 
@@ -71,13 +70,13 @@ function products_lfw_set_min_num_products() {
 		
 		$cart_num_products = WC()->cart->cart_contents_count;
 
-		//variable that contain the shop permalink for the button in the warning banner
+		//Variable that contain the shop permalink for the button in the warning banner
 	    $return_to  = get_permalink(wc_get_page_id('shop'));
 		
 
 	    // Compare values and add an error is Cart's total number of products
 
-		if( $cart_num_products < $min_num_products ) {
+		if( $min_num_products != '' && $cart_num_products < $min_num_products ) {
 			
 			// If the checkbox for button is enabled add the shop button to the warning message in cart or checkout page display our error message
 
@@ -103,13 +102,8 @@ function products_lfw_set_min_num_products() {
 		}
 
 	}
-}
 
 
-
-
-
-if (get_option('max_auto_insert') == 'yes')   {
 
 // Function for max products in check out or cart
 
@@ -128,7 +122,7 @@ if( is_cart() || is_checkout() ) {
 
 		// Compare values and add an error is Cart's total number of products
 
-		if( $cart_num_products > $max_num_products ) {
+		if( $max_num_products != '' && $cart_num_products > $max_num_products ) {
 
 		// If the checkbox for button is enabled add the shop button to the warning message in cart or checkout page display our error message
 
@@ -153,7 +147,6 @@ if( is_cart() || is_checkout() ) {
 	}
 }
 
-}
 	
 /**
 * Products limit status widget.
@@ -172,7 +165,7 @@ function products_lfw_dashboard_widget_function() {
 			<?php
 	
 		// Check if maximum limit is enabled
-				if (get_option('max_auto_insert') == 'yes') { 
+				if ($max_num_products != '') { 
 				printf(__( 'You have set a maximum limit of %s products before checking out.', 'products-limit'), $max_num_products );
 				} else {
 				echo _e('You have not set a maximum limit of products','products-limit');
@@ -185,7 +178,7 @@ function products_lfw_dashboard_widget_function() {
 			<?php
 	
 		// Check if minimum limit is enabled
-				if (get_option('min_auto_insert') == 'yes') {
+				if ($min_num_products != '') {
 				printf(__( 'You have set a minimum limit of %s products before checking out.', 'products-limit'), $min_num_products );
 				} else {
 				echo _e('You have not set a minimum limit of products','products-limit');
@@ -202,10 +195,12 @@ function products_lfw_dashboard_widget_function() {
 	
 }
 	
-
+	
+	
 // Action hook for status widget
 function products_lfw_add_dashboard_widgets() {
 	wp_add_dashboard_widget('dashboard_widget', 'Products limit for WooCommerce status', 'products_lfw_dashboard_widget_function');
 }
 add_action('wp_dashboard_setup', 'products_lfw_add_dashboard_widgets' );
 }
+
