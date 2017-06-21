@@ -1,10 +1,11 @@
 <?php
+<?php
 /*
-Plugin Name: Products limit for Woocommerce
+Plugin Name: Products limit for WooCommerce
 Plugin URI: http://iacopocutino.it/products-limit-for-woocommerce/
 Description: Allow to set minimum and maximum quantity of products in Woocommerce and display a warning banner in the cart or checkout page.
 Author: Iacopo Cutino
-Version: 3.0
+Version: 3.2
 Domain Path: /languages
 Author URI: www.iacopocutino.it
 License: GPL2
@@ -105,6 +106,10 @@ function products_lfw_set_min_num_products() {
 
 
 
+
+
+
+
 // Function for max products in check out or cart
 
 add_action( 'woocommerce_check_cart_items', 'products_lfw_set_max_num_products' );
@@ -146,6 +151,7 @@ if( is_cart() || is_checkout() ) {
 
 	}
 }
+
 
 	
 /**
@@ -203,4 +209,5 @@ function products_lfw_add_dashboard_widgets() {
 }
 add_action('wp_dashboard_setup', 'products_lfw_add_dashboard_widgets' );
 }
+
 
