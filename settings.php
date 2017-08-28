@@ -97,9 +97,10 @@ add_filter( 'admin_footer_text', 'admin_footer_text' , 5 );
 	$screen_id = $screen ? $screen->id : '';
 
 	if( $screen_id == 'woocommerce_page_wc-settings' && isset($_GET['section']) && $_GET['section'] == 'products_limit_woo' ) {
-		$footer_text = sprintf( __( 'If you like <strong>Product limits for WooCommerce</strong> please leave a %s rating.', 'products-limit' ), '<a href="https://wordpress.org/support/plugin/products-limit-for-woocommerce/reviews/" target="_blank" class="wc-rating-link">&#9733;&#9733;&#9733;&#9733;&#9733;</a>' );
+		$footer_text = sprintf( __( 'If you like <strong>Product limits for WooCommerce</strong> please leave a %s rating', 'products-limit' ), '<a href="https://wordpress.org/support/plugin/products-limit-for-woocommerce/reviews/" target="_blank" class="wc-rating-link">&#9733;&#9733;&#9733;&#9733;&#9733;</a>' );
 	}
 		return $footer_text;
 	}		
+	
 	
 	
