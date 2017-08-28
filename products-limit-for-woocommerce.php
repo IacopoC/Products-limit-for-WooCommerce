@@ -1,14 +1,15 @@
 <?php
-<?php
 /*
 Plugin Name: Products limit for WooCommerce
 Plugin URI: http://iacopocutino.it/products-limit-for-woocommerce/
-Description: Allow to set minimum and maximum quantity of products in Woocommerce and display a warning banner in the cart or checkout page.
+Description: Allow to set minimum and maximum quantity of products in WooCommerce and display a warning banner in the cart or checkout page.
 Author: Iacopo Cutino
-Version: 3.2
+Version: 3.3
 Domain Path: /languages
 Author URI: www.iacopocutino.it
 License: GPL2
+WC requires at least: 2.6
+WC tested up to: 3.1
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as
@@ -67,7 +68,7 @@ function products_lfw_set_min_num_products() {
 	if( is_cart() || is_checkout() ) {
 		global $woocommerce, $post;
 
-		$min_num_products = get_option( 'number_field' );
+		$min_num_products = get_option('number_field');
 		
 		$cart_num_products = WC()->cart->cart_contents_count;
 
@@ -114,14 +115,14 @@ function products_lfw_set_min_num_products() {
 
 add_action( 'woocommerce_check_cart_items', 'products_lfw_set_max_num_products' );
 function products_lfw_set_max_num_products() { 
-// Only run in the Cart or Checkout pages
+
 if( is_cart() || is_checkout() ) {
 		global $woocommerce, $post;
 
 		//variable that contain the shop permalink for the button in the warning banner
 		$return_to  = get_permalink(wc_get_page_id('shop'));
 
-		$max_num_products = get_option( 'number_field2' );
+		$max_num_products = get_option('number_field2');
 
 		$cart_num_products = WC()->cart->cart_contents_count;
 
@@ -160,42 +161,55 @@ if( is_cart() || is_checkout() ) {
 
 function products_lfw_dashboard_widget_function() {
 	
-	$min_num_products = get_option( 'number_field' );
+	$min_num_products = get_option('number_field');
 	
-	$max_num_products = get_option( 'number_field2' );
-	?>
+	$max_num_products = get_option('number_field2');
+	
+	$shop_button = get_option('button_auto_insert'); ?>
+	
 		<ul class="products-limit-box">
 			
 			<li class="maximum-count">
 			<span class="dashicons dashicons-arrow-up-alt"></span>
-			<?php
+			
 	
-		// Check if maximum limit is enabled
+	<?php  // Check if maximum limit is enabled
 				if ($max_num_products != '') { 
 				printf(__( 'You have set a maximum limit of %s products before checking out.', 'products-limit'), $max_num_products );
 				} else {
 				echo _e('You have not set a maximum limit of products','products-limit');
-				}
-			?>
+				} ?>
 			</li>
 			
 			<li class="minimum-count">
 			<span class="dashicons dashicons-arrow-down-alt"></span>
-			<?php
+			
 	
-		// Check if minimum limit is enabled
+	<?php // Check if minimum limit is enabled
 				if ($min_num_products != '') {
 				printf(__( 'You have set a minimum limit of %s products before checking out.', 'products-limit'), $min_num_products );
 				} else {
 				echo _e('You have not set a minimum limit of products','products-limit');
-				}
-			?>
+				} ?>
 			</li>
 			
-		</ul>		
+			<li class="return-button">
+				<span class="dashicons dashicons-marker"></span>
+				
+				<?php if(get_option('button_auto_insert') == 'yes') { 
+				
+				echo _e( 'Return to shop button enabled', 'products-limit');
+				} else {
+				echo _e('Return to shop button disabled','products-limit');
+				}	?>
+				
+			</li>
+			
+		</ul>
+				
 	<ul class="sub-settings">	
 	<li><a href="<?php echo admin_url( 'admin.php?page=wc-settings&tab=products&section=products_limit_woo'); ?>">
-	<?php printf('Settings','products-limit'); ?></a></li>
+	<?php printf(__('Settings','products-limit')); ?></a></li>
 	</ul>
 	<?php
 	
@@ -205,9 +219,10 @@ function products_lfw_dashboard_widget_function() {
 	
 // Action hook for status widget
 function products_lfw_add_dashboard_widgets() {
-	wp_add_dashboard_widget('dashboard_widget', 'Products limit for WooCommerce status', 'products_lfw_dashboard_widget_function');
+	wp_add_dashboard_widget('dashboard_widget', __('Products limit for WooCommerce status','products-limit'), 'products_lfw_dashboard_widget_function');
 }
 add_action('wp_dashboard_setup', 'products_lfw_add_dashboard_widgets' );
 }
+
 
 
